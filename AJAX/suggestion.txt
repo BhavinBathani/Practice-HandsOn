@@ -1,0 +1,165 @@
+/**
+ * Function definition : this function gets called when dropdownlist value changed
+ * function call another function to get state/city value from server.
+ * parameters : dropdownlist object on which user change the value
+ * return : returns nothing
+ */
+function dropChange(selectDropObj){	
+	/*
+	 * reason
+	 */
+	getDataFromServer(selectDropObj);
+}
+function removeOptions(dropToRemove){
+	for (var c=document.getElementById(dropToRemove).options.length; c >= 1 ;c--)
+	{
+		document.getElementById(dropToRemove).remove(c);
+	}
+}
+function createUrl(xmlhttp,requestFor){
+	var selectedCountry = document.getElementById("countrySelector").options[document.getElementById("countrySelector").selectedIndex].value;
+	var selectedState = document.getElementById("stateSelector").options[document.getElementById("stateSelector").selectedIndex].value;		
+	var serverUrl = "data.php?requestFor="+requestFor+"&country="+selectedCountry+"&state="+selectedState;
+	
+	if(requestFor == "getState" && selectedCountry == '0') {
+		alert('plz select country');
+	} else if (requestFor == "getCity" && selectedState == '0') {
+		alert('plz select state');
+	} else {
+		xmlhttp.open("GET",serverUrl,true);
+		xmlhttp.send();
+	}
+}
+/**
+ * Function definition : this function retrive the required data from server,
+ * create the object of xmlhttp,
+ * call another functions to do some prerequired activities,
+ * dynamically create the dropdownitems.
+ * parameters : dropdownlist object on which user change the value
+ * return : returns nothing
+ */
+function getDataFromServer(selectDropObj){	
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp=new XMLHttpRequest();
+	} else { // Set structure
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	
+	xmlhttp.onreadystatechange = function() // give enough spaces
+  	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    	{			
+			var afterRes = xmlhttp.responseText.split(',');		
+			var option; // define var whenver neccessary
+			
+			// Code duplication
+			if(selectDropObj.id == "countrySelector") {			
+				for (var i=0;i<afterRes.length;i++) 
+				{
+					option = new Option(afterRes[i],afterRes[i]);
+					stateSelector.options[i+1] = option;
+				}
+			} else if(selectDropObj.id == "stateSelector") {
+				for (var i=0;i<afterRes.length;i++) 
+				{
+					option = new Option(afterRes[i],afterRes[i]);
+					citySelector.options[i+1] = option;
+				}
+			} else {		
+				// comments why this conditions are neccessary
+				for (var i=0;i<afterRes.length;i++) 
+				{
+					option = new Option(afterRes[i],afterRes[i]);
+					countrySelector.options[i+1] = option;
+				}
+			}
+		}		
+	}
+	var requestFor = "";
+	if(selectDropObj) {
+		if(selectDropObj.id == "countrySelector") {
+			removeOptions("stateSelector");
+			removeOptions("citySelector");
+			createUrl(xmlhttp,"getState");
+		} else if(selectDropObj.id == "stateSelector") {
+			removeOptions("citySelector");
+			createUrl(xmlhttp,"getCity");
+		}
+	} else {		
+		removeOptions("countrySelector");
+		createUrl(xmlhttp,"getCountry");
+	}
+	
+	
+	// Create url	
+	
+	// Send
+
+	
+	// Get request obj
+	// Send request - callback - better	
+	
+}
+/**
+ * Function definition : this function called whenevr page loading gets completed,
+ * function call another function to get country value from server.
+ * parameters : Empty String
+ * return : returns nothing
+ */
+function afterLoad()
+{
+	//var nothin="";
+	getDataFromServer("");
+	// Truthy - true values - 1, 1to 100, string non empty object defined if()
+	// Falsy - false values - 0, string empty, object undefined if false
+}
+function changeContent()
+{
+	// child remove
+	var countryDisplayElement = document.getElementById("countrySelector");
+	var stateDisplayElement = document.getElementById("stateSelector");
+	var cityDisplayElement = document.getElementById("citySelector");
+	
+	var countryDisplayValue = countryDisplayElement.options[countryDisplayElement.selectedIndex].value;
+	var stateDisplayValue = stateDisplayElement.options[stateDisplayElement.selectedIndex].value;
+	var cityDisplayValue = cityDisplayElement.options[cityDisplayElement.selectedIndex].value;
+	
+	if(countryDisplayValue == 0){
+		alert('plz select country values');
+	} else if(stateDisplayValue == 0) {
+		alert('plz select state values');
+	} else if(cityDisplayValue == 0) {
+		alert('plz select city values');
+	} else {
+		document.getElementById("displayCountry").textContent = countryDisplayValue;
+		document.getElementById("displayState").textContent = stateDisplayValue;
+		document.getElementById("displayCity").textContent = cityDisplayValue;
+	}
+}
+window.onload=afterLoad;
+
+
+----------------------------------------------
+
+/**
+	 * Function which cancel/decline/deletes Meeting and sends Meeting decline message to organizer.
+	 * @param {String} sendUpdateFlag flag which decides messageAction for the deleting item
+	 */
+	declineMeeting : function(sendUpdateFlag)
+
+* @return {Boolean} true if meeting/meeting request/appointment is in past else false.
+
+
+
+
+
+-----------------------------------------------
+
+/**
+	 * Function which cancel/decline/deletes Meeting and sends Meeting decline message to organizer.
+	 * @param {String} sendUpdateFlag flag which decides messageAction for the deleting item
+	 */
+	declineMeeting : function(sendUpdateFlag)
+
+* @return {Boolean} true if meeting/meeting request/appointment is in past else false.

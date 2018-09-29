@@ -1,0 +1,18 @@
+.loginContainer {
+	width : 90%;
+    color: red;
+	border: solid black;
+	text-align: center;
+	margin : 0 auto;
+	padding : 5px;
+}
+.displayTimer
+{
+	width : 90%;
+	margin :  5px auto;
+	border: solid black;
+}
+.hbox{
+	display: inline-block;
+    border: medium solid black;   
+}
